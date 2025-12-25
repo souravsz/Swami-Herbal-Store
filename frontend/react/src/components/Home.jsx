@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
-
+import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className="home-container">
@@ -10,7 +10,7 @@ const Home = () => {
           Experience nature’s healing power with Swami Herbal Products  crafted from pure herbs for your body, mind, and spirit
         </p>
         <div className="hero-buttons">
-          <button className="cta-button primary">Buy Now</button>
+          <Link className="cta-button primary" to="/products">Buy Now</Link>
           <button className="cta-button secondary">About Us</button>
         </div>
       </div>
