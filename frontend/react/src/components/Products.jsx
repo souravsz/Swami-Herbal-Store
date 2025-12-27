@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Products.css';
 
 const Products = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -42,7 +44,11 @@ const Products = () => {
 
       <div className="products-grid">
         {products.map(product => (
-          <div key={product.id} className="product-card">
+          <div 
+            key={product.id} 
+            className="product-card"
+            onClick={() => navigate(`/products/${product.id}`)}
+          >
             <img
               src={product.image}
               alt={product.name}
