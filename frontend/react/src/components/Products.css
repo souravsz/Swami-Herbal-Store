@@ -18,9 +18,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  justify-items: start;
 }
 
 .product-card {
+  width: 300px;
   background: #1a1a1a;
   border-radius: 12px;
   overflow: hidden;
@@ -160,5 +162,74 @@
 
   .products-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+.pagination-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.75rem;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pagination-btn.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  font-weight: 600;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pagination-nav {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: light) {
+  .pagination-btn {
+    color: #64748b;
+    border-color: #e5e7eb;
+    background-color: white;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    color: #374151;
+  }
+
+  .pagination-btn.active {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+    color: #1f2937;
   }
 }
