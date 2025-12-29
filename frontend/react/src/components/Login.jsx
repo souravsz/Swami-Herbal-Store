@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./Login.css";
+import authService from "../utils/auth";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: ""
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -14,10 +17,20 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your login logic here
+    setLoading(true);
+    setError("");
+
+    const result = await authService.login(formData.username, formData.password);
+    
+    if (result.success) {
+      window.location.href = "/"; // Redirect to dashboard
+    } else {
+      setError(result.error.message || "Login failed");
+    }
+    
+    setLoading(false);
   };
 
   return (
@@ -26,15 +39,17 @@ const Login = () => {
         <h1 className="login-title">Welcome Back</h1>
         
         <form onSubmit={handleSubmit} className="login-form">
+          {error && <div className="error-message">{error}</div>}
+          
           <div className="form-group">
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="username"
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="form-input"
-              placeholder="Enter your email"
+              placeholder="Enter your username"
               required
             />
           </div>
@@ -52,8 +67,8 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="login-button">
-            Login
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 

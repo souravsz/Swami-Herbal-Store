@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import authService from "../utils/auth";
 import "./Register.css";
 
 const Register = () => {
@@ -25,7 +26,7 @@ const Register = () => {
   }
 
   try {
-    const response = await fetch("http://localhost:8000/register/", {
+    const response = await fetch(`${authService.getBaseURL()}/user/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

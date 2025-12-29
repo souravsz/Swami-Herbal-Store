@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import authService from '../utils/auth';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -8,7 +9,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/products/${id}/`)
+    fetch(`${authService.getBaseURL()}/products/${id}/`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import authService from '../utils/auth';
 import './Products.css';
 
 const Products = () => {
@@ -14,7 +15,7 @@ const Products = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://127.0.0.1:8000/products/?page=${page}`)
+    fetch(`${authService.getBaseURL()}/products/?page=${page}`)
       .then(response => response.json())
       .then(data => {
         setProducts(data.results || []);
