@@ -14,3 +14,11 @@ class CartSerializer(serializers.ModelSerializer):
 class AddToCartSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
     quantity = serializers.IntegerField(default=1, min_value=1)
+
+
+class UpdateCartQuantitySerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    quantity = serializers.IntegerField()
+
+class RemoveCartQuantitySerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()

@@ -42,6 +42,7 @@ const Products = () => {
 
   return (
     <div className="products-container">
+      <h1 className="products-header">Products</h1>
 
       <div className="products-grid">
         {products.map(product => (

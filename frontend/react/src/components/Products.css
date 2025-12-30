@@ -6,12 +6,12 @@
 }
 
 .products-header {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 2rem;
   text-align: left;
-  color: rgba(255, 255, 255, 0.9);
+  color: #d1cbcb;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .products-grid {

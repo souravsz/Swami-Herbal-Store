@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Cart
-from .serializers import CartSerializer, AddToCartSerializer
+from .serializers import CartSerializer, AddToCartSerializer , UpdateCartQuantitySerializer , RemoveCartQuantitySerializer
 from products.models import Product
 
 class AddToCartView(APIView):
@@ -42,3 +42,68 @@ class CartListView(generics.ListAPIView):
     
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
+
+class UpdateCartQuantityView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = UpdateCartQuantitySerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        cart_item_id = serializer.validated_data["product_id"]
+        quantity = serializer.validated_data["quantity"]
+
+        try:
+            cart_item = Cart.objects.get(
+                product_id=cart_item_id,
+                user=request.user
+            )
+        except Cart.DoesNotExist:
+            return Response(
+                {"error": "Cart item not found"},
+                status=404
+            )
+    
+        cart_item.quantity = quantity
+        cart_item.save()
+
+        return Response(
+            CartSerializer(cart_item).data,
+            status=200
+        )
+
+class RemoveCartQuantityView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        serializer = RemoveCartQuantitySerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+        
+        cart_item_id = serializer.validated_data["product_id"]
+
+        try:
+            cart_item = Cart.objects.get(
+                product_id=cart_item_id,
+                user=request.user
+            )
+        except Cart.DoesNotExist:
+            return Response(
+                {"error": "Cart item not found"},
+                status=404
+            )
+        
+        cart_item.delete()
+        return Response(
+            {
+                "success": True,
+                "message": "Cart item removed successfully",
+                "data": {
+                    "cart_item_id": cart_item_id
+                }
+            },
+            status=status.HTTP_200_OK
+        )

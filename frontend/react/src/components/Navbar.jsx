@@ -1,6 +1,6 @@
 import React from "react";
 import "./Navbar.css";
-import LogoImage from "../assets/logo.png";
+import mainLogo from "../assets/mainLogo.png";
 import { Link } from 'react-router-dom';
 import authService from '../utils/auth';
 
@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="logo">
         <Link to="/">
-          <span className="logo-text">Swami Herbal</span>
+          <span className="logo-text">Swami Herbals</span>
         </Link>
       </div>
       <div className="nav-links">
