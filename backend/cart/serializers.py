@@ -22,3 +22,16 @@ class UpdateCartQuantitySerializer(serializers.Serializer):
 
 class RemoveCartQuantitySerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
+
+class CheckOutItemSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    name = serializers.CharField()
+    image = serializers.ImageField()
+    quantity = serializers.IntegerField()
+    price = serializers.IntegerField()
+    total_price = serializers.IntegerField()
+    
+class CheckOutPreviewSerializer(serializers.Serializer):
+    items = CheckOutItemSerializer(many=True)
+    tax_amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = serializers.DecimalField(max_digits=10, decimal_places=2)

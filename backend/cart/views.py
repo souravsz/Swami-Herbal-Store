@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Cart
-from .serializers import CartSerializer, AddToCartSerializer , UpdateCartQuantitySerializer , RemoveCartQuantitySerializer
+from .serializers import CartSerializer, AddToCartSerializer , UpdateCartQuantitySerializer , RemoveCartQuantitySerializer , CheckOutItemSerializer , CheckOutPreviewSerializer
 from products.models import Product
 
 class AddToCartView(APIView):
@@ -107,3 +107,37 @@ class RemoveCartQuantityView(APIView):
             },
             status=status.HTTP_200_OK
         )
+    
+class CheckOutPreviewView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        cart_items = Cart.objects.filter(user=user)
+        items_data = []
+        total_amount = 0
+        for item in cart_items:
+            data ={
+                'product_id': item.product.id,
+                'name': item.product.name,
+                'image': item.product.image.url,
+                'price': item.product.price,
+                'quantity': item.quantity,
+                'total_price': item.product.price*item.quantity,
+
+            }
+            total_amount+=item.product.price*item.quantity
+            serializer = CheckOutItemSerializer(data)
+            items_data.append(serializer.data)
+
+        tax_amount = total_amount*0.18
+
+        response_data = {
+            "items": items_data,
+            "tax_amount": tax_amount,
+            "total_amount": total_amount,
+        }
+
+        serializer = CheckOutPreviewSerializer(response_data)
+        return Response(serializer.data, status=200)
+            
